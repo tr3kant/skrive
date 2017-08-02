@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - '4'
+  - '5'
+before_script: npm install --global gulp-cli && yarn install
+script: gulp lint-sass
+branches:
+  only:
+    - "master"
+notifications:
+  email: false
