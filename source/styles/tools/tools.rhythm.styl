@@ -1,0 +1,42 @@
+//
+// RHYTHM
+//
+
+
+// This is the space in pixels that a typeface needs to sit perfectly on the baseline grid
+
+-skrive-shift( $cap-height, $font-size, $line-height )
+  return round( ( $line-height - ( $font-size * $cap-height ) ) / 2 )
+
+
+
+// Generate a font-size and baseline-compatible line-height.
+skrive-font-size( $type, $font-size = $skrive-global-font-size, $modular-scale = $skrive-modular-scale )
+  if $modular-scale
+    if -is-unitless( $font-size ) is false
+      error(  -string( $font-size ) + ' is not a valid format for the typeset mixin: $font-size must be a unitless' )
+    else
+      $font-size = $skrive-global-font-size * ( $skrive-scale-ratio ** $font-size )
+
+  else
+    if -is-unitless( $font-size )
+      error( -string( $font-size ) + ' is not a valid format for the typeset mixin: $font-size must be have unit px, em, or rem' )
+    else
+      if unit( $font-size ) is 'em' or unit( $font-size ) is 'rem'
+        $font-size = -convert-to( 'px', $font-size )
+
+  $units-in-size = ceil( ( $font-size + .001 ) / $skrive-global-spacing-unit )
+
+  // Calculate line-height base on font-size
+  $line-height = round( $skrive-global-spacing-unit * $units-in-size )
+
+  // Calculate baseline
+  $shift = -skrive-shift( $type.cap-height, -strip( $font-size ), -strip( $line-height ) )
+
+  $padding-top = $shift
+  $margin-bottom = ( $shift > $skrive-global-spacing-unit ? 2 : 1 ) * $skrive-global-spacing-unit - $shift
+
+  margin-bottom: $margin-bottom
+  padding-top: unit( $padding-top, 'px' )
+  font-size: $font-size
+  line-height: -strip( $line-height / $font-size )

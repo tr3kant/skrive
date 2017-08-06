@@ -7,6 +7,11 @@ export const pathConfig = {
   dist: './build',
 }
 
+export const extensions = {
+  styles:  'stylus',
+  scripts: 'js',
+}
+
 export const delConfig = [
   'dest',
   'tmp',
@@ -21,45 +26,9 @@ export const browserSyncConfig = {
   snippetOptions:  { rule: { match: /<\/body>/i }},
 };
 
-const processors = [
-  require( 'rucksack-css' )( {
-    clearFix:                true,
-    shorthandPosition:       true,
-    inputPseudo:             true,
-    rangeElements:           true,
-    alias:                   false,
-    fallbacks:               false,
-    responsiveType:          true,
-    fontPath:                false,
-    autoprefixer:            false,
-    quantityPseudoSelectors: true,
-  } ),
-  require( 'postcss-cssnext' )( {
-    messages: {
-      browser: false,
-      console: false,
-    },
-    features: {
-      customProperties:  false,
-      customMedia:       true,
-      mediaQueriesRange: false,
-      customSelectors:   true,
-      colorFunction:     true,
-    },
-    autoprefixer: false,
-  } ),
-  require( 'postcss-pxtorem' )( {
-    rootValue:     16,
-    unitPrecision: 5,
-    propWhiteList: [ 'font', 'font-size', 'letter-spacing', 'line-height', 'margin-top', 'margin-bottom', 'margin', 'padding' ],
-    mediaQuery:    true,
-  } ),
-];
-
 // https://github.com/jescalan/accord/blob/master/docs/stylus.md
 export const stylusConfig = {
   use: [
-    require( 'poststylus' )( processors ),
     require( 'rupture' )(),
   ],
   include: [

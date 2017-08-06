@@ -1,0 +1,74 @@
+//
+// GLOBAL SETTINGS
+// =============
+// The global settings file contains any project-wide variables; things that
+// need to be made available to the entire codebase.
+//
+
+//
+// 1. TYPEFACES
+//
+
+$skrive-type-body:= {
+  font-family: '"Libre Baskerville", serif',
+  regular: 400,
+  bold: 700,
+  italic: italic,
+  cap-height: 0.78
+}
+
+$skrive-type-head:= {
+  font-family: '"Open Sans Condensed", sans-serif',
+  regular: 300,
+  bold: 700,
+  cap-height: 0.72
+}
+
+$skrive-type-mono:= {
+  font-family: 'Menlo, monospace',
+  regular: 400,
+  cap-height: 0.68
+}
+
+//
+// 2. COLOURS
+//
+
+// Common Project Colours
+$color--blue  = #33c3f0
+$color--black = #000
+$color--grey  = #d9d9d9
+$color--white = #fff
+
+// Brand Colours
+$color--primary = #37b34a
+$color--secondary = lighten( $color--grey, 13.5% )
+
+// Default Notification Colours
+$color--success = #47a967
+$color--notice  = #4791a9
+$color--warning = #dc7f2a
+$color--error   = #ca4427
+
+
+//
+// 3. BREAKPOINTS AND MEDIA QUERIES
+// Setup standard widths to pass to media queries
+//
+
+// @stylint off
+
+rupture.base-font-size = 16
+rupture.mobile-cutoff  = 960px
+rupture.desktop-cutoff = 1200px
+rupture.hd-cutoff = 1800px
+
+rupture.enable-em-breakpoints = true
+rupture.anti-overlap = true
+
+rupture.scale =        0         600px       960px      1200px       1800px
+//                     └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘ └────┬────
+// Slice numbers:           1           2           3           4           5
+rupture.scale-names =    'short'      'tall'     'grande'    'venti'     'trenta'
+
+// @stylint on

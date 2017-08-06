@@ -1,0 +1,29 @@
+// Check if variable is unitless
+-is-unitless( n )
+  if unit( n ) is ''
+    return true
+  else
+    return false
+
+// Converter unit to px, em or rem
+-convert-to( $to-unit, $value, $context = $skrive-global-font-size )
+  $from-unit = unit( $value )
+  return $value if $to-unit is $from-unit
+  if $to-unit in ( 'em' 'rem' )
+    return value if $from-unit in ( 'em' 'rem' )
+    return unit( ( $value / $context ), $to-unit )
+  if $to-unit is 'px'
+    return unit( ($value * $context ), 'px' )
+
+
+// Stringify the given arg
+-string( arg )
+  type( arg ) + ' ' + arg
+
+// Check if value is an integer and returns true or false
+-is-int( $number )
+  ( $number is a'unit' and floor( abs( $number ) ) == abs( $number ) ) ? true : false
+
+// Returns a number without a unit. For example 16px becomes 16
+-strip( $number )
+  remove-unit( $number )

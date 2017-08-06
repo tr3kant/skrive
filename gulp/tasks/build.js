@@ -1,9 +1,17 @@
-import { series } from 'gulp';
-import { processStyles } from './styles';
+/*
+1. DEPENDENCIES
+*/
 
+import { series } from 'gulp';
+import { styles, stylint } from './styles';
+
+/*
+1. DEPENDENCIES
+*/
 const build = series(
   series(
-    processStyles,
+    stylint,
+    styles,
   )
 );
 
