@@ -1,5 +1,6 @@
 
 # Distribution Folder
+build/
 dist/
 bower_components/
 node_modules/
@@ -8,6 +9,7 @@ rev-manifest.json
 
 # Environment files
 .env
+yarn.lock
 
 # Logs
 logs
