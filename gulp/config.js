@@ -37,7 +37,14 @@ export const stylusConfig = {
   'include css': true,
 };
 
-export const pugConfig = { pretty: '\t' };
+export const pugConfig = {
+  pretty:  '\t',
+  filters: {
+    php: block => {
+      return '<?' + block + '?>'
+    },
+  },
+};
 
 export const htmlPrettifyConfig = {
   'unformatted':       [ 'pre', 'code', 'textarea' ],
