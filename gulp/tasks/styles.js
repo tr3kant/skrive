@@ -20,7 +20,7 @@ export const styles = () =>
     .pipe( plugins.stylus( stylusConfig ) )
     .pipe( plugins.postcss() )
     .pipe( isDevelopment ? plugins.sourcemaps.write() : plugins.util.noop() )
-    .pipe( dest( `${pathConfig.dist}/styles` ) )
+    .pipe( dest( `${pathConfig.dist}/assets/styles` ) )
     .pipe( bs.reload( { stream: true } ) );
 
 export const stylint = () =>
