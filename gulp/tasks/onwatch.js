@@ -8,7 +8,10 @@ import path from 'path';
 import logger from 'gulplog';
 
 import { pathConfig } from '../config';
+import { images } from './images';
 import { styles, stylint } from './styles';
+import { markup } from './markup';
+import { reload } from './server';
 
 /*
 2. TASKING
@@ -43,10 +46,22 @@ function addEventsHandlers( watcher ) {
 const onwatch = done => {
 
   const watchers = [
+    // Static images
+    watch(
+      `${pathConfig.src}/images/**/*.*`,
+      series( images, reload )
+    ),
+
     // Static styles
     watch(
       `${pathConfig.src}/styles/**/*.styl`,
       series( stylint, styles )
+    ),
+
+    // Static markup
+    watch(
+      `${pathConfig.src}/markup/**/*.pug`,
+      series( markup, reload )
     ),
 
   ];
