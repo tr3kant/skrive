@@ -1,0 +1,12 @@
+$svg-icon-map = {
+{{#shapes}}
+  {{base}}: {{height.outer}}/{{width.outer}}{{^last}},{{/last}}
+{{/shapes}}
+};
+
+.icon
+  {{#shapes}}
+  &--{{name}}
+    width: {{width.outer}}px
+    height: {{height.outer}}px
+  {{/shapes}}

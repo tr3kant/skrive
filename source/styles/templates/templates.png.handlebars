@@ -1,0 +1,167 @@
+{
+  // Default options
+  'functions': true,
+  'variableNameTransforms': ['dasherize']
+}
+
+{{#extend "stylus"}}
+{{#content "sprites-comment"}}
+// @stylint off
+{{/content}}
+{{#content "sprites" mode="append"}}
+{{#each retina_sprites}}
+${{strings.name_name}} = '{{name}}';
+${{strings.name_x}} = {{px.x}};
+${{strings.name_y}} = {{px.y}};
+${{strings.name_offset_x}} = {{px.offset_x}};
+${{strings.name_offset_y}} = {{px.offset_y}};
+${{strings.name_width}} = {{px.width}};
+${{strings.name_height}} = {{px.height}};
+${{strings.name_total_width}} = {{px.total_width}};
+${{strings.name_total_height}} = {{px.total_height}};
+${{strings.name_image}} = '{{{escaped_image}}}';
+${{strings.name}} = {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' '{{name}}';
+{{/each}}
+{{/content}}
+{{#content "spritesheet" mode="append"}}
+${{retina_spritesheet_info.strings.name_width}} = {{retina_spritesheet.px.width}};
+${{retina_spritesheet_info.strings.name_height}} = {{retina_spritesheet.px.height}};
+${{retina_spritesheet_info.strings.name_image}} = '{{{retina_spritesheet.escaped_image}}}';
+${{retina_spritesheet_info.strings.name_sprites}} ={{#each retina_sprites}} ${{strings.name}}{{/each}};
+${{retina_spritesheet_info.strings.name}} = {{retina_spritesheet.px.width}} {{retina_spritesheet.px.height}} '{{{retina_spritesheet.escaped_image}}}' ${{retina_spritesheet_info.strings.name_sprites}};
+
+/*
+These "retina group" variables are mappings for the naming and pairing of normal and retina sprites.
+
+The list formatted variables are intended for mixins like `retinaSprite` and `retinaSprites`.
+*/
+{{#each retina_groups}}
+${{strings.name_group_name}} = '{{name}}';
+${{strings.name_group}} = '{{name}}' ${{normal.strings.name}} ${{retina.strings.name}};
+{{/each}}
+${{retina_groups_info.strings.name}} ={{#each retina_groups}} ${{strings.name_group}}{{/each}};
+{{/content}}
+
+{{#content "sprite-functions-comment"}}
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  spriteWidth($icon_home)
+}
+
+.icon-email {
+  sprite($icon_email)
+}
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+
+{{/content}}
+{{#content "sprite-functions"}}
+sprite-width($sprite) {
+  width: $sprite[4];
+}
+
+sprite-height($sprite) {
+  height: $sprite[5];
+}
+
+sprite-position($sprite) {
+  background-position: $sprite[2] $sprite[3];
+}
+
+sprite-image($sprite) {
+  background-image: url($sprite[8]);
+}
+
+sprite($sprite) {
+  sprite-image($sprite)
+  sprite-position($sprite)
+  sprite-width($sprite)
+  sprite-height($sprite)
+}
+sprite-background-size($sprite) {
+  background-size: $sprite[6] $sprite[7];
+}
+
+/*
+The `retinaSprite` mixin sets up rules and a media query for a sprite/retina sprite.
+  It should be used with a "retina group" variable.
+
+The media query is from CSS Tricks: https://css-tricks.com/snippets/css/retina-display-media-query/
+
+$icon_home_group = 'icon-home' $icon_home $icon_home_2x;
+
+.retina-sprite-home {
+  retina-sprite($icon_home_group)
+}
+*/
+retina-sprite($retina_group) {
+  $normal_sprite = $retina_group[1];
+  $retina_sprite = $retina_group[2];
+  sprite($normal_sprite)
+
+  @media (-webkit-min-device-pixel-ratio: 2),
+         (min-resolution: 192dpi) {
+    sprite-image($retina_sprite)
+    sprite-background-size($normal_sprite)
+  }
+}
+{{/content}}
+{{#content "spritesheet-functions-comment"}}
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of Stylus
+
+This must be run when you have at least 2 sprites.
+  If run with a single sprite, then there will be reference errors.
+
+sprites($spritesheet-sprites);
+*/
+
+{{/content}}
+{{#content "spritesheet-functions"}}
+sprites($sprites) {
+  for $sprite in $sprites {
+    $sprite_name = $sprite[9];
+    .sprite-{$sprite_name} {
+      sprite($sprite);
+    }
+  }
+}
+
+/*
+The `retinaSprites` mixin generates a CSS rule and media query for retina groups
+  This yields the same output as CSS retina template but can be overridden in Stylus
+
+retina-sprites($retina-groups);
+*/
+
+
+retina-sprites($retina_groups) {
+  for $retina_group in $retina_groups {
+    $sprite_name = $retina_group[0];
+    .retina-sprite-{$sprite_name} {
+      retina-sprite($retina_group);
+    }
+  }
+}
+
+// @stylint on
+{{/content}}
+{{/extend}}
+
