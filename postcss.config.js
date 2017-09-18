@@ -26,6 +26,7 @@ module.exports = {
       },
       autoprefixer: false,
     },
+    'stylefmt':         {},
     'postcss-reporter': {},
     // 'postcss-pxtorem':  {
     //   rootValue:     16,
