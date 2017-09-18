@@ -1,48 +1,70 @@
-{
-  // Default options
-  'functions': true,
-  'variableNameTransforms': ['dasherize']
-}
-
-{{#extend "stylus"}}
-{{#content "sprites-comment"}}
 // @stylint off
-{{/content}}
-{{#content "sprites" mode="append"}}
-{{#each retina_sprites}}
-${{strings.name_name}} = '{{name}}';
-${{strings.name_x}} = {{px.x}};
-${{strings.name_y}} = {{px.y}};
-${{strings.name_offset_x}} = {{px.offset_x}};
-${{strings.name_offset_y}} = {{px.offset_y}};
-${{strings.name_width}} = {{px.width}};
-${{strings.name_height}} = {{px.height}};
-${{strings.name_total_width}} = {{px.total_width}};
-${{strings.name_total_height}} = {{px.total_height}};
-${{strings.name_image}} = '{{{escaped_image}}}';
-${{strings.name}} = {{px.x}} {{px.y}} {{px.offset_x}} {{px.offset_y}} {{px.width}} {{px.height}} {{px.total_width}} {{px.total_height}} '{{{escaped_image}}}' '{{name}}';
-{{/each}}
-{{/content}}
-{{#content "spritesheet" mode="append"}}
-${{retina_spritesheet_info.strings.name_width}} = {{retina_spritesheet.px.width}};
-${{retina_spritesheet_info.strings.name_height}} = {{retina_spritesheet.px.height}};
-${{retina_spritesheet_info.strings.name_image}} = '{{{retina_spritesheet.escaped_image}}}';
-${{retina_spritesheet_info.strings.name_sprites}} ={{#each retina_sprites}} ${{strings.name}}{{/each}};
-${{retina_spritesheet_info.strings.name}} = {{retina_spritesheet.px.width}} {{retina_spritesheet.px.height}} '{{{retina_spritesheet.escaped_image}}}' ${{retina_spritesheet_info.strings.name_sprites}};
+$menu-name = 'menu';
+$menu-x = 42px;
+$menu-y = 0px;
+$menu-offset-x = -42px;
+$menu-offset-y = 0px;
+$menu-width = 18px;
+$menu-height = 12px;
+$menu-total-width = 60px;
+$menu-total-height = 26px;
+$menu-image = '../images/sprite.png';
+$menu = 42px 0px -42px 0px 18px 12px 60px 26px '../images/sprite.png' 'menu';
+$photo-name = 'photo';
+$photo-x = 0px;
+$photo-y = 0px;
+$photo-offset-x = 0px;
+$photo-offset-y = 0px;
+$photo-width = 34px;
+$photo-height = 26px;
+$photo-total-width = 60px;
+$photo-total-height = 26px;
+$photo-image = '../images/sprite.png';
+$photo = 0px 0px 0px 0px 34px 26px 60px 26px '../images/sprite.png' 'photo';
+$menu-2x-name = 'menu@2x';
+$menu-2x-x = 84px;
+$menu-2x-y = 0px;
+$menu-2x-offset-x = -84px;
+$menu-2x-offset-y = 0px;
+$menu-2x-width = 36px;
+$menu-2x-height = 24px;
+$menu-2x-total-width = 120px;
+$menu-2x-total-height = 52px;
+$menu-2x-image = '..images/sprite@2x.png';
+$menu-2x = 84px 0px -84px 0px 36px 24px 120px 52px '..images/sprite@2x.png' 'menu@2x';
+$photo-2x-name = 'photo@2x';
+$photo-2x-x = 0px;
+$photo-2x-y = 0px;
+$photo-2x-offset-x = 0px;
+$photo-2x-offset-y = 0px;
+$photo-2x-width = 68px;
+$photo-2x-height = 52px;
+$photo-2x-total-width = 120px;
+$photo-2x-total-height = 52px;
+$photo-2x-image = '..images/sprite@2x.png';
+$photo-2x = 0px 0px 0px 0px 68px 52px 120px 52px '..images/sprite@2x.png' 'photo@2x';
+$spritesheet-width = 60px;
+$spritesheet-height = 26px;
+$spritesheet-image = '../images/sprite.png';
+$spritesheet-sprites = $menu $photo;
+$spritesheet = 60px 26px '../images/sprite.png' $spritesheet-sprites;
+$retina-spritesheet-width = 120px;
+$retina-spritesheet-height = 52px;
+$retina-spritesheet-image = '..images/sprite@2x.png';
+$retina-spritesheet-sprites = $menu-2x $photo-2x;
+$retina-spritesheet = 120px 52px '..images/sprite@2x.png' $retina-spritesheet-sprites;
 
 /*
 These "retina group" variables are mappings for the naming and pairing of normal and retina sprites.
 
 The list formatted variables are intended for mixins like `retinaSprite` and `retinaSprites`.
 */
-{{#each retina_groups}}
-${{strings.name_group_name}} = '{{name}}';
-${{strings.name_group}} = '{{name}}' ${{normal.strings.name}} ${{retina.strings.name}};
-{{/each}}
-${{retina_groups_info.strings.name}} ={{#each retina_groups}} ${{strings.name_group}}{{/each}};
-{{/content}}
+$menu-group-name = 'menu';
+$menu-group = 'menu' $menu $menu-2x;
+$photo-group-name = 'photo';
+$photo-group = 'photo' $photo $photo-2x;
+$retina-groups = $menu-group $photo-group;
 
-{{#content "sprite-functions-comment"}}
 /*
 The provided mixins are intended to be used with the array-like variables
 
@@ -70,8 +92,6 @@ To change `display` (e.g. `display: inline-block;`), we suggest using a common C
 <i class="icon icon-home"></i>
 */
 
-{{/content}}
-{{#content "sprite-functions"}}
 sprite-width($sprite) {
   width: $sprite[4];
 }
@@ -121,8 +141,7 @@ retina-sprite($retina_group) {
     sprite-background-size($normal_sprite)
   }
 }
-{{/content}}
-{{#content "spritesheet-functions-comment"}}
+
 /*
 The `sprites` mixin generates identical output to the CSS template
   but can be overridden inside of Stylus
@@ -133,8 +152,6 @@ This must be run when you have at least 2 sprites.
 sprites($spritesheet-sprites);
 */
 
-{{/content}}
-{{#content "spritesheet-functions"}}
 sprites($sprites) {
   for $sprite in $sprites {
     $sprite_name = $sprite[9];
@@ -162,6 +179,4 @@ retina-sprites($retina_groups) {
 }
 
 // @stylint on
-{{/content}}
-{{/extend}}
 
