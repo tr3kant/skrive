@@ -1,0 +1,26 @@
+-skrive-icon-aspect-ratio( $n )
+  $m = $svg-icon-map
+  if $n in $m
+    return $m[$n]
+  else
+    error( 'The icon ' + $n + ' does not exist in your svg sprite' )
+
+skrive-icon-dimensions-by-height( $n, $h )
+  width: $h * -icon-aspect-ratio( $n )
+  height: $h
+
+skrive-icon-responsive( $n )
+  $g = 100 / -skrive-icon-aspect-ratio( $n )
+  position: relative
+  &:before
+    content: ''
+    display: block
+    height: 0
+    padding-bottom:  unit( $g, '%' )
+  > svg
+    display: block
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
