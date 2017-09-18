@@ -1,6 +1,6 @@
 // Check if variable is unitless
--is-unitless( n )
-  if unit( n ) is ''
+-is-unitless( $n )
+  if unit( $n ) is ''
     return true
   else
     return false
@@ -17,8 +17,8 @@
 
 
 // Stringify the given arg
--string( arg )
-  type( arg ) + ' ' + arg
+-string( $arg )
+  type( $arg ) + ' ' + $arg
 
 // Check if value is an integer and returns true or false
 -is-int( $number )
